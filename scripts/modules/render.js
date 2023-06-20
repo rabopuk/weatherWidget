@@ -1,17 +1,22 @@
+import { getCurrentDateTime } from "./helper.js";
+
 export const renderWidgetToday = (widget) => {
+	const currentDateTime = getCurrentDateTime();
+	console.log('currentDateTime: ', currentDateTime);
+
 	widget.insertAdjacentHTML(
 		'beforeend',
 		`
 			<div class="widget__today">
 				<div class="widget__date-block">
-					<p class="widget__date">20 июн 2023</p>
-					<p class="widget__time">09:00</p>
-					<p class="widget__day">вторник</p>
+					<p class="widget__date">${currentDateTime.dayOfMonth} ${currentDateTime.month} ${currentDateTime.year}</p>
+					<p class="widget__time">${currentDateTime.hours}:${currentDateTime.minutes}</p>
+					<p class="widget__day">${currentDateTime.dayOfWeek}</p>
 				</div>
 				<div class="widget__icon">
 					<img class="widget__img" src="./icon/01d.svg" alt="Погода">
 				</div>
-				<div class="widget__wheather">
+				<div class="widget__weather">
 					<div class="widget__city">
 						<p>Калининград</p>
 						<button class="widget__change-city" aria-label="Изменить город"></button>
@@ -34,7 +39,6 @@ export const renderWidgetOther = (widget) => {
 					<p class="widget__wind-title">Ветер</p>
 					<p class="widget__wind-speed">3.94 м/с</p>
 					<p class="widget__wind-text">&#8599;</p>
-
 				</div>
 				<div class="widget__humidity">
 					<p class="widget__humidity-title">Влажность</p>
@@ -85,4 +89,3 @@ export const renderWidgetForecast = (widget) => {
 		`
 	);
 };
-
