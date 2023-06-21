@@ -1,3 +1,5 @@
+const addZeroMinutesHours = n => n < 10 ? `0${n}` : n;
+
 export const getCurrentDateTime = () => {
 	const months = [
 		'янв',
@@ -25,31 +27,21 @@ export const getCurrentDateTime = () => {
 	];
 
 	const date = new Date();
+
 	const year = date.getFullYear();
-	// console.log('year: ', year);
-
 	const month = months[date.getMonth()];
-	// console.log('month: ', month);
-
 	const dayOfMonth = date.getDate();
-	// console.log('dayOfMonth: ', dayOfMonth);
-
 	const dayOfWeek = weekdays[date.getDay()];
-	// console.log('dayOfWeek: ', dayOfWeek);
 
-	let hours = date.getHours();
+	// date.setHours(3);
+	// date.setMinutes(7);
+
+	const hours = addZeroMinutesHours(date.getHours());
+	const minutes = addZeroMinutesHours(date.getMinutes());
+
 	// console.log('hours: ', hours);
-
-	if (hours < 10) {
-		hours = `0${hours}`;
-	}
-
-	let minutes = date.getMinutes();
 	// console.log('minutes: ', minutes);
 
-	if (minutes < 10) {
-		minutes = `0${minutes}`;
-	}
 
-	return { hours, minutes, dayOfMonth, month, year, dayOfWeek, };
+	return { hours, minutes, dayOfMonth, month, year, dayOfWeek };
 };

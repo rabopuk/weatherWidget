@@ -3,7 +3,10 @@
 	overflow: hidden;
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	box-sizing: border-box;
-	background-color: rgb(177, 237, 255);
+	/* background-color: rgb(177, 237, 255); */
+	background-image: linear-gradient(15deg, #70e1f5, #ffd194);
+	/* background-image: linear-gradient(15deg, #8feeff, #ffe0bb); */
+	/* background-image: linear-gradient(-155deg, #C9FFBF, #FFAFBD); */
 	font-size: 14px;
 	text-align: center;
 	max-width: 410px;
