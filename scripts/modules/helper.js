@@ -45,3 +45,15 @@ export const getCurrentDateTime = () => {
 
 	return { hours, minutes, dayOfMonth, month, year, dayOfWeek };
 };
+
+export const calculateDewPoint = (data) => {
+	let dewPoint;
+	let f;
+	let t;
+
+	t = 22;
+	f = (17.27 * t) / (237.7 + t) + Math.log(data.main.humidity / 100);
+	dewPoint = (237.7 * f) / (17.27 - f);
+
+	return dewPoint;
+};
