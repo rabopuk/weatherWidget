@@ -46,7 +46,7 @@ export const renderWidgetOther = (widget, data) => {
 				<div class="widget__humidity">
 					<p class="widget__humidity-title">Влажность</p>
 					<p class="widget__humidity-value">${(data.main.humidity).toFixed()}%</p>
-					<p class="widget__humidity-text">Т.Р: ${(calculateDewPoint(data)).toFixed(2)} °C</p>
+					<p class="widget__humidity-text">Т.Р.: ${(calculateDewPoint(data)).toFixed(2)} °C</p>
 				</div>
 				<div class="widget__pressure">
 					<p class="widget__pressure-title">Давление</p>

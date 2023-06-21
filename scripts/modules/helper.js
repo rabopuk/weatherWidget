@@ -47,11 +47,11 @@ export const getCurrentDateTime = () => {
 };
 
 export const calculateDewPoint = (data) => {
-	let dewPoint;
-	let f;
-	let t;
+	let dewPoint, // точка росы
+		f, // высчитывается по формуле
+		t; // температура в °C
 
-	t = 22;
+	t = data.main.temp - 273.15;
 	f = (17.27 * t) / (237.7 + t) + Math.log(data.main.humidity / 100);
 	dewPoint = (237.7 * f) / (17.27 - f);
 
