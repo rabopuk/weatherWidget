@@ -1,4 +1,4 @@
-import { calculateDewPoint, convertPressure, getCurrentDateTime, getForecastData, getWindDirection } from "./helper.js";
+import { calculateDewPoint, convertPressure, getCurrentDateTime, getForecastData } from "./helper.js";
 
 export const renderWidgetToday = (widget, data) => {
 	// console.log('data: ', data);
@@ -41,7 +41,7 @@ export const renderWidgetOther = (widget, data) => {
 				<div class="widget__wind">
 					<p class="widget__wind-title">Ветер</p>
 					<p class="widget__wind-speed">${(data.wind.speed).toFixed(2)} м/с</p>
-					<p class="widget__wind-text">${getWindDirection(data.wind.deg)}</p>
+					<p class="widget__wind-text" style="transform: rotate(${data.wind.deg}deg)">&#8595</p>
 				</div>
 				<div class="widget__humidity">
 					<p class="widget__humidity-title">Влажность</p>
@@ -63,9 +63,9 @@ export const renderWidgetForecast = (widget, data) => {
 	widgetForecast.className = 'widget__forecast';
 	widget.append(widgetForecast);
 
-	const forecastDataFiveDays = getForecastData(data);
+	const forecastDataFourDays = getForecastData(data);
 
-	const items = forecastDataFiveDays.map((item) => {
+	const items = forecastDataFourDays.map((item) => {
 		const widgetDayItem = document.createElement('li');
 		widgetDayItem.className = 'widget__day-item';
 

@@ -45,21 +45,21 @@ export const getCurrentDateTime = () => {
 
 
 // Нахожу символ направления ветра
-export const getWindDirection = (deg) => {
-	const directions = [
-		'&#8593;', // N
-		'&#8598;', // NW
-		'&#8592;', // W
-		'&#8601;', // SW
-		'&#8595;', // S
-		'&#8600;', // SE
-		'&#8594;', // E
-		'&#8599;', // NE
-	];
-	const i = Math.round(deg / 45) % 8;
+// export const getWindDirection = (deg) => {
+// 	const directions = [
+// 		'&#8593;', // N
+// 		'&#8598;', // NW
+// 		'&#8592;', // W
+// 		'&#8601;', // SW
+// 		'&#8595;', // S
+// 		'&#8600;', // SE
+// 		'&#8594;', // E
+// 		'&#8599;', // NE
+// 	];
+// 	const i = Math.round(deg / 45) % 8;
 
-	return directions[i];
-};
+// 	return directions[i];
+// };
 
 
 // Рассчитываю Точку Росы
@@ -80,11 +80,12 @@ export const convertPressure = pressure => (pressure / 133.3223684 * 100).toFixe
 
 //
 export const getForecastData = (data) => {
-	// Получаю следующие 5 дней
+	// Получаю следующие 4 дня
 	const forecast = data.list.filter(
 		(item) =>
 			new Date(item.dt_txt).getHours() === 12 &&
-			new Date(item.dt_txt).getDate() > new Date().getDate()
+			new Date(item.dt_txt).getDate() > new Date().getDate() &&
+			new Date(item.dt_txt).getDate() < new Date().getDate() + 5
 	);
 	// console.log('forecast: ', forecast);
 
@@ -110,20 +111,14 @@ export const getForecastData = (data) => {
 			const temp = data.list[i].main.temp;
 			const tempDate = new Date(data.list[i].dt_txt);
 
-			// if (tempDate.getDate() === date.getDate()) {
-			// 	if (temp < minTemp) {
-			// 		minTemp = temp;
-			// 	} else {
-			// 		maxTemp = temp;
-			// 	}
-			// }
+			if (tempDate.getDate() === date.getDate()) {
+				if (temp < minTemp) {
+					minTemp = temp;
+				}
 
-			if (tempDate.getDate() === date.getDate() && temp < minTemp) {
-				minTemp = temp;
-			}
-
-			if (tempDate.getDate() === date.getDate() && temp > maxTemp) {
-				maxTemp = temp;
+				if (temp > maxTemp) {
+					maxTemp = temp;
+				}
 			}
 		}
 
@@ -137,3 +132,11 @@ export const getForecastData = (data) => {
 
 	return forecastData;
 };
+
+/**
+ * Евгений Васильев
+ * Решение 4-х дней такое: в функции getWeatherForecastData добавитьconst currentDate = new Date();const dateUTC = new Date(currentDate.getTime() + currentDate.getTimezoneOffset() * 60000);
+
+ * Евгений Васильев
+ * и заменить new Date().getDate() на dateUTC.getDate() тогда всегда будет 5 дней вне зависимости от часового пояса.
+ */

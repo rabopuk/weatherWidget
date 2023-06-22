@@ -21,7 +21,7 @@ export const startWidget = async () => {
 	}
 
 	const dataForecast = await fetchForecast(city);
-	console.log('dataForecast: ', dataForecast);
+	// console.log('dataForecast: ', dataForecast);
 
 	if (dataForecast.success) {
 		renderWidgetForecast(widget, dataForecast.data);
