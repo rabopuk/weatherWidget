@@ -1,3 +1,4 @@
+// Добавляю 0 в часах и минутах
 const addZeroMinutesHours = n => n < 10 ? `0${n}` : n;
 
 export const getCurrentDateTime = () => {
@@ -13,7 +14,7 @@ export const getCurrentDateTime = () => {
 		'сен',
 		'окт',
 		'ноя',
-		'дек'
+		'дек',
 	];
 
 	const weekdays = [
@@ -23,7 +24,7 @@ export const getCurrentDateTime = () => {
 		'среда',
 		'четверг',
 		'пятница',
-		'суббота'
+		'суббота',
 	];
 
 	const date = new Date();
@@ -39,21 +40,100 @@ export const getCurrentDateTime = () => {
 	const hours = addZeroMinutesHours(date.getHours());
 	const minutes = addZeroMinutesHours(date.getMinutes());
 
-	// console.log('hours: ', hours);
-	// console.log('minutes: ', minutes);
-
-
 	return { hours, minutes, dayOfMonth, month, year, dayOfWeek };
 };
 
-export const calculateDewPoint = (data) => {
-	let dewPoint, // точка росы
-		f, // высчитывается по формуле
-		t; // температура в °C
 
-	t = data.main.temp - 273.15;
-	f = (17.27 * t) / (237.7 + t) + Math.log(data.main.humidity / 100);
-	dewPoint = (237.7 * f) / (17.27 - f);
+// Нахожу символ направления ветра
+export const getWindDirection = (deg) => {
+	const directions = [
+		'&#8593;', // N
+		'&#8598;', // NW
+		'&#8592;', // W
+		'&#8601;', // SW
+		'&#8595;', // S
+		'&#8600;', // SE
+		'&#8594;', // E
+		'&#8599;', // NE
+	];
+	const i = Math.round(deg / 45) % 8;
 
-	return dewPoint;
+	return directions[i];
+};
+
+
+// Рассчитываю Точку Росы
+export const calculateDewPoint = (temp, humidity) => {
+	const a = 17.27, // постоянная
+		b = 237.7; // постоянная
+
+	const f = (a * temp) / (b + temp) + Math.log(humidity / 100); // высчитывается по формуле
+	const dewPoint = (b * f) / (a - f); // точка росы
+
+	return dewPoint.toFixed(2);
+};
+
+
+// Конвертирую давление из гПа в мм рт.ст.
+export const convertPressure = pressure => (pressure / 133.3223684 * 100).toFixed(2);
+
+
+//
+export const getForecastData = (data) => {
+	// Получаю следующие 5 дней
+	const forecast = data.list.filter(
+		(item) =>
+			new Date(item.dt_txt).getHours() === 12 &&
+			new Date(item.dt_txt).getDate() > new Date().getDate()
+	);
+	// console.log('forecast: ', forecast);
+
+	const forecastData = forecast.map((item) => {
+		const date = new Date(item.dt_txt);
+		const weekdaysShort = [
+			'вс',
+			'пн',
+			'вт',
+			'ср',
+			'чт',
+			'пт',
+			'сб',
+		];
+
+		const dayOfWeek = weekdaysShort[date.getDay()];
+		const weatherIcon = item.weather[0].icon;
+
+		let minTemp = Infinity;
+		let maxTemp = -Infinity;
+
+		for (let i = 0; i < data.list.length; i++) {
+			const temp = data.list[i].main.temp;
+			const tempDate = new Date(data.list[i].dt_txt);
+
+			// if (tempDate.getDate() === date.getDate()) {
+			// 	if (temp < minTemp) {
+			// 		minTemp = temp;
+			// 	} else {
+			// 		maxTemp = temp;
+			// 	}
+			// }
+
+			if (tempDate.getDate() === date.getDate() && temp < minTemp) {
+				minTemp = temp;
+			}
+
+			if (tempDate.getDate() === date.getDate() && temp > maxTemp) {
+				maxTemp = temp;
+			}
+		}
+
+		return {
+			dayOfWeek,
+			weatherIcon,
+			minTemp,
+			maxTemp,
+		};
+	});
+
+	return forecastData;
 };
