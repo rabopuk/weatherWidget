@@ -6,7 +6,7 @@ export const fetchWeather = async (city) => {
 		const response = await fetch(`${API_URL}weather?units=metric&q=${city}&appid=${API_KEY}&lang=ru`);
 
 		if (!response.ok || response.status === 404) {
-			throw new Error("Ошибка запроса")
+			throw new Error("Ошибка запроса погоды")
 		}
 
 		const data = await response.json();
@@ -17,12 +17,13 @@ export const fetchWeather = async (city) => {
 	};
 };
 
+
 export const fetchForecast = async (city) => {
 	try {
 		const response = await fetch(`${API_URL}forecast?units=metric&q=${city}&appid=${API_KEY}&lang=ru`);
 
 		if (!response.ok || response.status === 404) {
-			throw new Error("Ошибка запроса")
+			throw new Error("Ошибка запроса прогноза")
 		}
 
 		const data = await response.json();
@@ -31,4 +32,27 @@ export const fetchForecast = async (city) => {
 	} catch (error) {
 		return { success: false, error };
 	};
+};
+
+
+// Вычисляю город по айпи
+export const getCity = async () => {
+	const url = 'https://ipapi.co/city/';
+
+	try {
+		const response = await fetch(url);
+
+		if (!response.ok) {
+			throw new Error("Ошибка запроса города")
+		}
+
+		const city = await response.text();
+		// console.log('city: ', city);
+
+		return { success: true, city };
+	} catch (error) {
+		console.log(error)
+
+		return { success: false, error };
+	}
 };

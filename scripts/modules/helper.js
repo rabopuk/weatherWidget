@@ -132,11 +132,3 @@ export const getForecastData = (data) => {
 
 	return forecastData;
 };
-
-/**
- * Евгений Васильев
- * Решение 4-х дней такое: в функции getWeatherForecastData добавитьconst currentDate = new Date();const dateUTC = new Date(currentDate.getTime() + currentDate.getTimezoneOffset() * 60000);
-
- * Евгений Васильев
- * и заменить new Date().getDate() на dateUTC.getDate() тогда всегда будет 5 дней вне зависимости от часового пояса.
- */
